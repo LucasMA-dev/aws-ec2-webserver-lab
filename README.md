@@ -1,11 +1,6 @@
-# aws-ec2-webserver-lab
-Documentação de laboratório prático focado no deploy, monitoramento e redimensionamento seguro de um servidor web Apache (httpd) utilizando Amazon EC2.
-
-
 # AWS EC2 Lab - Deploy e Gestão de um Servidor Web
 
 **Autor:** Lucas Moreira de Araujo
-
 **Contexto:** Documentação da execução prática do laboratório "Introduction to Amazon EC2", com foco em segurança, automação e escalabilidade.
 
 ---
@@ -22,36 +17,14 @@ O projeto foi dividido nas seguintes fases, com aprendizados técnicos cruciais 
 
 * **Instância Base:** Seleção da AMI **Amazon Linux 2023** e tipo de instância `t3.micro`.
 * **User Data Script:** Utilizei o campo **User Data** para automatizar a configuração do servidor na primeira inicialização. Isso garante que a instância já suba pronta para servir conteúdo.
+* **Resiliência (Proteção Contra Encerramento):** Ativei a `Termination Protection` na configuração avançada da instância como uma medida de segurança para ambientes de produção.
 
-**Arquivo: `user_data_script.sh`**
+**Arquivo: user_data_script.sh (Código do User Data)**
 
 ```bash
 #!/bin/bash
 yum -y install httpd
 systemctl enable httpd
 systemctl start httpd
-echo '<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EC2 Web Server by Lucas Moreira</title>
-  <style>
-    body { 
-      font-family: "Segoe UI", Arial, sans-serif; 
-      background-color: #0d1117; 
-      color: #00ffa2; 
-      text-align: center; 
-      margin-top: 10%;
-    }
-    h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
-    p { color: #b0b0b0; font-size: 1rem; }
-    .credit { margin-top: 2rem; font-size: 0.9rem; color: #666; }
-  </style>
-</head>
-<body>
-  <h1>🚀 Welcome to My AWS EC2 Web Server</h1>
-  <p>Instance running on Amazon Linux — automatically configured via User Data.</p>
-  <div class="credit">Developed by <strong>Lucas Moreira</strong></div>
-</body>
-</html>' > /var/www/html/index.html
+echo '<html><h1>Welcome to My AWS EC2 Web Server</h1><p>Instance running on Amazon Linux — automatically configured via User Data.</p><p>Developed by Lucas Moreira</p></html>' > /var/www/html/index.html
+2. Controle de Acesso e SegurançaInicialmente, o acesso via IP Público falhou. Isso demonstrou o papel fundamental do Security Group como um stateful firewall.Ação: Foi necessário editar as regras de entrada (Inbound Rules) do Security Group Web Server security group.Regra Adicionada: Tipo: HTTP | Porta: 80 | Origem: Custom (0.0.0.0/0 - Anywhere).3. Redimensionamento de Recursos e MonitoramentoGestão de Capacidade: Para simular uma mudança de requisito, a instância foi parada (stopped) antes de mudar o tipo de t3.micro para t3.small e aumentar o volume EBS de 8 GiB para 10 GiB. Isso reforça a diferença entre estados de instância.Monitoramento: Explorei as métricas de performance no painel Monitoring (CloudWatch) e utilizei a ferramenta Get Instance Screenshot para diagnóstico de boot e troubleshooting (ver imagem 3).4. Ciclo de Vida e Segurança ReforçadaTeste da Proteção Contra Encerramento: A tentativa inicial de encerrar (terminate) a instância falhou com uma mensagem de erro, provando a eficácia da Termination Protection antes de ser desativada para a exclusão final.📸 Evidências do LabAs imagens abaixo provam a execução das tarefas chave e o sucesso do deploy.DescriçãoScreenshot1. Status da Instância: Web Server em estado 'Executando' com IP Público.2. Acesso ao Servidor Web: Sucesso após o deploy e correção do Security Group.3. Diagnóstico de Boot: Tela capturada da instância (Get Instance Screenshot), usada para troubleshooting e monitoramento.4. Documentação: Acesso ao guia de usuário da AWS EC2, parte do processo de pesquisa e aprendizado.
