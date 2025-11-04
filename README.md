@@ -2,6 +2,8 @@
 
 **Autor:** Lucas Moreira de Araujo
 **Contexto:** Documentação da execução prática do laboratório "Introduction to Amazon EC2", com foco em segurança, automação e escalabilidade.
+![AWS](https://img.shields.io/badge/AWS-EC2-orange?logo=amazonaws)
+![Status](https://img.shields.io/badge/Status-Concluído-success)
 
 ---
 
