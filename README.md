@@ -27,4 +27,33 @@ yum -y install httpd
 systemctl enable httpd
 systemctl start httpd
 echo '<html><h1>Welcome to My AWS EC2 Web Server</h1><p>Instance running on Amazon Linux — automatically configured via User Data.</p><p>Developed by Lucas Moreira</p></html>' > /var/www/html/index.html
-2. Controle de Acesso e SegurançaInicialmente, o acesso via IP Público falhou. Isso demonstrou o papel fundamental do Security Group como um stateful firewall.Ação: Foi necessário editar as regras de entrada (Inbound Rules) do Security Group Web Server security group.Regra Adicionada: Tipo: HTTP | Porta: 80 | Origem: Custom (0.0.0.0/0 - Anywhere).3. Redimensionamento de Recursos e MonitoramentoGestão de Capacidade: Para simular uma mudança de requisito, a instância foi parada (stopped) antes de mudar o tipo de t3.micro para t3.small e aumentar o volume EBS de 8 GiB para 10 GiB. Isso reforça a diferença entre estados de instância.Monitoramento: Explorei as métricas de performance no painel Monitoring (CloudWatch) e utilizei a ferramenta Get Instance Screenshot para diagnóstico de boot e troubleshooting (ver imagem 3).4. Ciclo de Vida e Segurança ReforçadaTeste da Proteção Contra Encerramento: A tentativa inicial de encerrar (terminate) a instância falhou com uma mensagem de erro, provando a eficácia da Termination Protection antes de ser desativada para a exclusão final.📸 Evidências do LabAs imagens abaixo provam a execução das tarefas chave e o sucesso do deploy.DescriçãoScreenshot1. Status da Instância: Web Server em estado 'Executando' com IP Público.2. Acesso ao Servidor Web: Sucesso após o deploy e correção do Security Group.3. Diagnóstico de Boot: Tela capturada da instância (Get Instance Screenshot), usada para troubleshooting e monitoramento.4. Documentação: Acesso ao guia de usuário da AWS EC2, parte do processo de pesquisa e aprendizado.
+```
+
+### 2. Controle de Acesso e Segurança
+
+Inicialmente, o acesso via IP Público falhou. Isso demonstrou o papel fundamental do **Security Group** como um *stateful firewall*.
+
+* **Ação:** Foi necessário editar as regras de entrada (Inbound Rules) do Security Group `Web Server security group`.
+* **Regra Adicionada:** **Tipo:** HTTP | **Porta:** 80 | **Origem:** Custom (0.0.0.0/0 - Anywhere).
+
+### 3. Redimensionamento de Recursos e Monitoramento
+
+* **Gestão de Capacidade:** Para simular uma mudança de requisito, a instância foi **parada** (`stopped`) antes de mudar o tipo de `t3.micro` para **`t3.small`** e aumentar o volume EBS de 8 GiB para **10 GiB**. Isso reforça a diferença entre estados de instância.
+* **Monitoramento:** Explorei as métricas de performance no painel Monitoring (CloudWatch) e utilizei a ferramenta Get Instance Screenshot para diagnóstico de *boot* e *troubleshooting*.
+
+### 4. Ciclo de Vida e Segurança Reforçada
+
+* **Teste da Proteção Contra Encerramento:** A tentativa inicial de encerrar (`terminate`) a instância falhou com uma mensagem de erro, provando a eficácia da `Termination Protection` antes de ser desativada para a exclusão final.
+
+---
+
+## 📸 Evidências do Lab
+
+As imagens abaixo provam a execução das tarefas chave e o sucesso do deploy.
+
+| Descrição | Screenshot |
+| :--- | :--- |
+| **1. Status da Instância:** `Web Server` em estado 'Executando' com IP Público. | ![Instância EC2 em execução](assets/01-webserver-running.png) |
+| **2. Acesso ao Servidor Web:** Sucesso após o deploy e correção do Security Group. | ![Servidor Web acessível via IP Público](assets/02-access-granted.png) |
+| **3. Diagnóstico de Boot:** Tela capturada da instância (`Get Instance Screenshot`), usada para *troubleshooting* e monitoramento. | ![Captura de tela da instância no boot](assets/03-instance-screenshot-troubleshoot.jpg) |
+| **4. Documentação:** Acesso ao guia de usuário da AWS EC2, parte do processo de pesquisa e aprendizado. | ![Guia de usuário da Amazon EC2](assets/04-aws-documentation-context.png) |
