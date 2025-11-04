@@ -56,4 +56,4 @@ As imagens abaixo provam a execução das tarefas chave e o sucesso do deploy.
 | **1. Status da Instância:** `Web Server` em estado 'Executando' com IP Público. | ![Instância EC2 em execução](assets/01-webserver-running.png) |
 | **2. Acesso ao Servidor Web:** Sucesso após o deploy e correção do Security Group. | ![Servidor Web acessível via IP Público](assets/02-access-granted.png) |
 | **3. Diagnóstico de Boot:** Tela capturada da instância (`Get Instance Screenshot`), usada para *troubleshooting* e monitoramento. | ![Captura de tela da instância no boot](assets/03-instance-screenshot-troubleshoot.jpg) |
-| **4. Documentação:** Acesso ao guia de usuário da AWS EC2, parte do processo de pesquisa e aprendizado. | ![Guia de usuário da Amazon EC2](assets/04-aws-documentation-context.png) |
+| **4. Documentação:** Acesso ao guia de usuário da AWS EC2, parte do processo de pesquisa e aprendizado. | ![Guia de usuário da Amazon EC2](assets/04-ec2-overview.png) |
